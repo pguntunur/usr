@@ -1,0 +1,4 @@
+# Ignore the big model files
+/ctx
+/uk
+/roberta_ft
