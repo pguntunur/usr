@@ -76,14 +76,14 @@ def get_scores(fn):
   fn_base = fn.split(".")[0]
 
   # BERTscore 
-  data_fn = "bs_data/" + fn
-  os.system("/usr/bin/python3 run_bertscore.py " + data_fn)
-  scores_fn = "bs_data/" + fn_base + ".scores"
-  scores['BERTScore'] = np.mean(eval(open(scores_fn).read()))
+  # data_fn = "bs_data/" + fn
+  # os.system("/usr/bin/python3 run_bertscore.py " + data_fn)
+  # scores_fn = "bs_data/" + fn_base + ".scores"
+  # scores['BERTScore'] = np.mean(eval(open(scores_fn).read()))
 
   #  METEOR
-  scores_fn = "bs_data/" + fn_base + ".meteor"
-  scores['METEOR'] = np.mean(eval(open(scores_fn).read()))
+  # scores_fn = "bs_data/" + fn_base + ".meteor"
+  # scores['METEOR'] = np.mean(eval(open(scores_fn).read()))
 
   # USR
   
@@ -142,6 +142,8 @@ CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
   mlm_scores = eval(open("undr/{0}.scores".format(fn_base)).read())
   scores["USR-MLM"] = np.mean(mlm_scores)
 
+  
+  print(len(mlm_scores), len(drc_scores), len(drf_scores))
   # Regression
   regr_scores = regression.scores(mlm_scores, drc_scores, drf_scores)
   scores['USR'] = np.mean(regr_scores)
