@@ -165,8 +165,8 @@ elif (int(model_num) == 0):
   
   # we can do what we do below because all the model files are named consistently.
   possible_model_nums = [ele[11:] for ele in possible_model_filenames]
-
   possible_model_nums = [ele[:-4] for ele in possible_model_nums]
+  possible_model_nums = [ele for ele in possible_model_nums if ele.isdigit()]
 
   possible_model_nums.sort()
   print(possible_model_nums)
