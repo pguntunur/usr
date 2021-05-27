@@ -164,11 +164,12 @@ elif (int(model_num) == 0):
   possible_model_filenames = [f for f in os.listdir(SRC_FCT_FOLDER_PATH) if os.path.isfile(os.path.join(SRC_FCT_FOLDER_PATH, f))]
   
   # we can do what we do below because all the model files are named consistently.
-  possible_model_nums = [ele[11:] for ele in possible_model_filenames]
+  possible_model_nums = [ele[10:] for ele in possible_model_filenames]
   possible_model_nums = [ele[:-4] for ele in possible_model_nums]
   possible_model_nums = [ele for ele in possible_model_nums if ele.isdigit()]
-
+  possible_model_nums = [int(ele) for ele in possible_model_nums]
   possible_model_nums.sort()
+  possible_model_nums = list(set(possible_model_nums))
   print(possible_model_nums)
 else:
   print("Model number does not exist")
