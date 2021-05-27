@@ -69,7 +69,7 @@ def prep_bs(fn):
 
 def get_scores(fn, model_num):
   prep_mlm(fn, model_num)
-  prep_bs(fn, model_num)
+  prep_bs(fn)
   prep_both(fn, model_num)
   prep_uk(fn, model_num)
 
