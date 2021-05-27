@@ -170,6 +170,10 @@ elif (int(model_num) == 0):
   possible_model_nums = [int(ele) for ele in possible_model_nums]
   possible_model_nums.sort()
   possible_model_nums = list(set(possible_model_nums))
-  print(possible_model_nums)
+
+  for mn in possible_model_nums:
+    get_scores("Transformer-baseline_v0.txt", str(mn)
+    print("Model #" + str(mn) + " complete.")
+
 else:
   print("Model number does not exist")
