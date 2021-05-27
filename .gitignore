@@ -1,5 +1,8 @@
 # Initially taken from Github's Python gitignore file
 
+# Additional
+examples/ap_data/chateval_src_fct/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
