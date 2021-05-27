@@ -172,7 +172,7 @@ elif (int(model_num) == 0):
   possible_model_nums = list(set(possible_model_nums))
 
   for mn in possible_model_nums:
-    get_scores("Transformer-baseline_v0.txt", str(mn)
+    get_scores("Transformer-baseline_v0.txt", str(mn))
     print("Model #" + str(mn) + " complete.")
 
 else:
