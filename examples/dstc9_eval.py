@@ -46,7 +46,7 @@ def prep_both(fn, model_num):
   csv.writer(open(folder + "/dev.tsv", "w+"),  delimiter="\t").writerows(rows)
   csv.writer(open(folder + "/train.tsv", "w+"), delimiter="\t").writerows(rows)
 
-def prep_uk(fn):
+def prep_uk(fn, model_num):
   outputs = tokenize(open(fn).readlines())
 
   valid_fct = [e.strip() for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct").readlines()] 
