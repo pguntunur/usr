@@ -6,6 +6,7 @@ import os
 import regression
 import spacy
 
+SRC_FCT_FOLDER_PATH = "ap_data/chateval_src_fct/"
 
 # Eval prep
 nlp = spacy.load('en')
@@ -24,16 +25,16 @@ def tokenize(data):
 
   return new_data
 
-def prep_mlm(fn):
+def prep_mlm(fn, model_num):
   outputs = tokenize(open(fn).readlines())
-  valid_src = [e.strip().split("_eos ")[-1] for e in open("ap_data/valid_freq.src").readlines()]
+  valid_src = [e.strip().split("_eos ")[-1] for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src").readlines()]
   output_lines = [s + " " + r + "\n" for s,r in zip(valid_src, outputs)]
   open("undr/" + fn, "w+").writelines([' '.join(e.split()) + "\n" for e in output_lines])
 
-def prep_both(fn):
+def prep_both(fn, model_num):
   outputs = tokenize(open(fn).readlines())
-  valid_src = [e.strip().split("_eos ")[-1] for e in open("ap_data/valid_freq.src").readlines()]
-  valid_fct = [e.strip() for e in open("ap_data/valid_freq.fct").readlines()] 
+  valid_src = [e.strip().split("_eos ")[-1] for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src").readlines()]
+  valid_fct = [e.strip() for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct").readlines()] 
 
   valid_ctx = [s+" " +f+" _eos" for  s,f in zip(valid_src, valid_fct)]
 
@@ -48,7 +49,7 @@ def prep_both(fn):
 def prep_uk(fn):
   outputs = tokenize(open(fn).readlines())
 
-  valid_fct = [e.strip() for e in open("ap_data/valid_freq.fct").readlines()] 
+  valid_fct = [e.strip() for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct").readlines()] 
 
   valid_ctx = [f+" _eos" for f in valid_fct]
 
@@ -66,11 +67,11 @@ def prep_bs(fn):
   new = outputs
   open("bs_data/" + fn, "w+").writelines([e+"\n" for e in new])
 
-def get_scores(fn):
-  prep_mlm(fn)
-  prep_bs(fn)
-  prep_both(fn)
-  prep_uk(fn)
+def get_scores(fn, model_num):
+  prep_mlm(fn, model_num)
+  prep_bs(fn, model_num)
+  prep_both(fn, model_num)
+  prep_uk(fn, model_num)
 
   scores = {}
   fn_base = fn.split(".")[0]
@@ -149,6 +150,14 @@ CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
   scores['USR'] = np.mean(regr_scores)
 
   print(scores)
+  scores.to_csv("ap_data/outputs/output_" + model_num + ".txt")
   return scores
-  
-get_scores("Transformer-baseline_v0.txt")
+
+
+
+model_num = input("Enter model number: ")
+if (os.path.exists(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src") and os.path.exists(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct")):
+  print("Model exists, files found.")
+  get_scores("Transformer-baseline_v0.txt", model_num)
+else:
+  print("Model number does not exist")
