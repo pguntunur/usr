@@ -160,11 +160,15 @@ model_num = input("Enter model number (0 for all): ")
 if (os.path.exists(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src") and os.path.exists(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct")):
   print("Model exists, files found.")
   get_scores("Transformer-baseline_v0.txt", model_num)
-else if (model_num == 0):
-  possible_model_filenames = [f for f in os.listdir(mypath) if os.path.isfile(os.path.join(mypath, f))]
+elif (int(model_num) == 0):
+  possible_model_filenames = [f for f in os.listdir(SRC_FCT_FOLDER_PATH) if os.path.isfile(os.path.join(SRC_FCT_FOLDER_PATH, f))]
+  
   # we can do what we do below because all the model files are named consistently.
   possible_model_nums = [ele[11:] for ele in possible_model_filenames]
-  possible_model_nums = [ele[:-4] for ele in possible_model_nums].sort()
-  console.log(possible_model_nums)
+
+  possible_model_nums = [ele[:-4] for ele in possible_model_nums]
+
+  possible_model_nums.sort()
+  print(possible_model_nums)
 else:
   print("Model number does not exist")
