@@ -150,7 +150,9 @@ CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
   scores['USR'] = np.mean(regr_scores)
 
   print(scores)
-  scores.to_csv("ap_data/outputs/output_" + model_num + ".txt")
+  with open('"ap_data/outputs/output_" + model_num + ".txt"', 'w') as convert_file:
+     convert_file.write(json.dumps(scores))
+  
   return scores
 
 
