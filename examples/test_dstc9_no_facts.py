@@ -26,14 +26,14 @@ def tokenize(data):
   return new_data
 
 def prep_mlm(fn, model_num):
-  outputs = tokenize(open(fn).readlines())
+  outputs = tokenize(open(SRC_FCT_FOLDER_PATH + fn).readlines())
   valid_src = [e.strip().split("_eos ")[-1] for e in open(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src").readlines()]
   output_lines = [s + " " + r + "\n" for s,r in zip(valid_src, outputs)]
   open("undr/" + fn, "w+").writelines([' '.join(e.split()) + "\n" for e in output_lines])
 
 
 def get_scores(fn, model_num):
-  fn = SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".fct"
+  fn = "valid_freq" + model_num + ".fct"
   prep_mlm(fn, model_num)
 
   scores = {}
