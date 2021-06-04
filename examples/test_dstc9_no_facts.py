@@ -41,7 +41,7 @@ def get_scores(fn, model_num):
   
   # MLM
   mlm = """
-export EVAL_FILE=undr/{0}.txt
+export EVAL_FILE=undr/{0}.fct
 
 CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
     --per_gpu_eval_batch_size=1 \
