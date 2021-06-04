@@ -66,9 +66,9 @@ CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
 #   regr_scores = regression.scores(mlm_scores, drc_scores, drf_scores)
 #   scores['USR'] = np.mean(regr_scores)
 
-#   print(scores)
+  print(scores)
   with open("ap_data/outputs/output_" + model_num + ".txt", 'w') as convert_file:
-     convert_file.write(json.dumps(mlm_scores))
+     convert_file.write(json.dumps(scores))
   
   return scores
 
