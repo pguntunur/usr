@@ -34,43 +34,47 @@ def prep_mlm(fn, model_num):
 
 def get_scores(fn, model_num):
   fn = "valid_freq" + model_num + ".fct"
-  prep_mlm(fn, model_num)
 
-  scores = {}
-  fn_base = fn.split(".")[0]
-  
-  # MLM
-  mlm = """
-export EVAL_FILE=undr/{0}.fct
+  if (os.stat("file").st_size == 0 or os.stat("file").st_size == 0):
+      return 0
+  else:
+    prep_mlm(fn, model_num)
 
-CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
-    --per_gpu_eval_batch_size=1 \
-    --output_dir=roberta_ft \
-    --model_type=roberta \
-    --model_name_or_path=roberta-base \
-    --train_data_file=$EVAL_FILE \
-    --do_eval \
-    --eval_data_file=$EVAL_FILE \
-    --mlm \
-    --overwrite_cache 
-""".format(fn_base)
-  print(mlm)
-  os.system(mlm)
+    scores = {}
+    fn_base = fn.split(".")[0]
+    
+    # MLM
+    mlm = """
+    export EVAL_FILE=undr/{0}.fct
 
-  mlm_scores = eval(open("undr/{0}.scores".format(fn_base)).read())
-  scores["USR-MLM"] = np.mean(mlm_scores)
+    CUDA_VISIBLE_DEVICES=1 python3 run_lm_finetuning.py \
+        --per_gpu_eval_batch_size=1 \
+        --output_dir=roberta_ft \
+        --model_type=roberta \
+        --model_name_or_path=roberta-base \
+        --train_data_file=$EVAL_FILE \
+        --do_eval \
+        --eval_data_file=$EVAL_FILE \
+        --mlm \
+        --overwrite_cache 
+    """.format(fn_base)
+    print(mlm)
+    os.system(mlm)
 
-  
-  print(len(mlm_scores))
-  # Regression
-#   regr_scores = regression.scores(mlm_scores, drc_scores, drf_scores)
-#   scores['USR'] = np.mean(regr_scores)
+    mlm_scores = eval(open("undr/{0}.scores".format(fn_base)).read())
+    scores["USR-MLM"] = np.mean(mlm_scores)
 
-  print(scores)
-  with open("ap_data/outputs/output_" + model_num + ".txt", 'w') as convert_file:
-     convert_file.write(json.dumps(scores))
-  
-  return scores
+    
+    print(len(mlm_scores))
+    # Regression
+    #   regr_scores = regression.scores(mlm_scores, drc_scores, drf_scores)
+    #   scores['USR'] = np.mean(regr_scores)
+
+    print(scores)
+    with open("ap_data/outputs/output_" + model_num + ".txt", 'w') as convert_file:
+        convert_file.write(json.dumps(scores))
+    
+    return scores
 
 
 model_num = input("Enter model number (0 for all): ")
