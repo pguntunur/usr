@@ -35,7 +35,7 @@ def prep_mlm(fn, model_num):
 def get_scores(fn, model_num):
   fn = "valid_freq" + model_num + ".fct"
 
-  if (os.stat("file").st_size == 0 or os.stat("file").st_size == 0):
+  if (os.stat(SRC_FCT_FOLDER_PATH + fn).st_size == 0 or os.stat(SRC_FCT_FOLDER_PATH + "valid_freq" + model_num + ".src").st_size == 0):
       return 0
   else:
     prep_mlm(fn, model_num)
