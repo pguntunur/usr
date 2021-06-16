@@ -2,6 +2,7 @@
 
 # Additional
 examples/ap_data/chateval_src_fct/
+examples/human_eval/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
